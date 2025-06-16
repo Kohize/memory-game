@@ -6,7 +6,6 @@ import shuffleArray from '../../utils/shuffleArray';
 export default function MainGame() {
   const array = useSelector((state) => state.game.gameArray);
   const difficulty = useSelector((state) => state.game.difficulty);
-  console.log(difficulty);
   const dispatch = useDispatch();
   const [pokemonDetail, setPokemonDetail] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -62,8 +61,6 @@ export default function MainGame() {
     getDetails();
   }, [array]);
 
-  console.log(pokemonDetail);
-
   {
     loading ? <div className="text-center py-10">Loading...</div> : null;
   }
@@ -78,7 +75,7 @@ export default function MainGame() {
           shuffleArray(pokemonDetail).map((item) => (
             <li
               key={item.id}
-              className="cursor-pointer hover:outline-teal-300 hover:outline-1 rounded-md hover:scale-105 ">
+              className="cursor-pointer hover:outline-teal-300 hover:outline-1 rounded-md hover:scale-105 dark:text-white">
               <p className="capitalize text-center font-bold text-sm select-none">
                 {item.name}
               </p>

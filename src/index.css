@@ -3,3 +3,5 @@
 @theme {
   --font-display: 'Orbitron', sans-serif;
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
