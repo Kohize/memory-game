@@ -22,6 +22,6 @@ const gameSlice = createSlice({
   },
 });
 
-export const { setDifficulty, setGameArray, setSelectedId } = gameSlice.actions;
+export const { setGameArray, setSelectedId, setDifficulty } = gameSlice.actions;
 
 export default gameSlice.reducer;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGameArray } from '../../utils/gameSlice';
 import shuffleArray from '../../utils/shuffleArray';
