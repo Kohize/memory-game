@@ -16,9 +16,12 @@ const gameSlice = createSlice({
     setSelectedId: (state, action) => {
       state.selectedId.push(action.payload);
     },
+    setDifficulty: (state, action) => {
+      state.difficulty = action.payload;
+    },
   },
 });
 
-export const { setGameArray, setSelectedId } = gameSlice.actions;
+export const { setDifficulty, setGameArray, setSelectedId } = gameSlice.actions;
 
 export default gameSlice.reducer;
