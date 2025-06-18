@@ -1,13 +1,17 @@
 import { Link } from 'react-router';
 
-export default function GameHeader() {
+export default function GameHeader({ currentScore, gameOver, bestScore }) {
   return (
-    <div className="grid grid-cols-3 pt-15 text-center text-white font-bold text-2xl">
+    <div className="grid grid-cols-3 pt-15 gap-x-40 text-center text-white font-bold text-2xl mb-20">
       <div>
-        <p className="select-none">Current score: </p>
+        {gameOver ? (
+          <p className=" text-red-700 font-semibold select-none">Game Over</p>
+        ) : (
+          <p className="select-none">Current score: {currentScore}</p>
+        )}
       </div>
       <div>
-        <p className="select-none">Best score:</p>
+        <p className="select-none">Best score: {bestScore}</p>
       </div>
       <div className="hover:text-zinc-200">
         <Link to={'/'}>Back to main menu</Link>

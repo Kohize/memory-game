@@ -4,6 +4,7 @@ const initialState = {
   difficulty: 'easy',
   gameArray: [],
   selectedId: [],
+  bestScore: 0,
 };
 
 const gameSlice = createSlice({
@@ -16,12 +17,26 @@ const gameSlice = createSlice({
     setSelectedId: (state, action) => {
       state.selectedId.push(action.payload);
     },
+    clearSelectedId: (state) => {
+      state.selectedId = [];
+    },
     setDifficulty: (state, action) => {
       state.difficulty = action.payload;
+    },
+    setBestScore: (state, action) => {
+      if (action.payload > state.bestScore) {
+        state.bestScore = action.payload;
+      }
     },
   },
 });
 
-export const { setGameArray, setSelectedId, setDifficulty } = gameSlice.actions;
+export const {
+  setGameArray,
+  setSelectedId,
+  setDifficulty,
+  clearSelectedId,
+  setBestScore,
+} = gameSlice.actions;
 
 export default gameSlice.reducer;

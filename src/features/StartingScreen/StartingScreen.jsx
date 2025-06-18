@@ -5,13 +5,16 @@ import ThemeButton from './ui/ThemeButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { setTheme } from '../../utils/themeSlice';
+import { setBestScore } from '../../utils/gameSlice';
 
 export default function StartingScreen() {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme.mode);
+  const bestScore = useSelector((state) => state.game.bestScore);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme' || 'light');
+    console.log(theme);
+    const savedTheme = localStorage.getItem('theme') || 'light';
     dispatch(setTheme(savedTheme));
   }, []);
 
@@ -20,12 +23,21 @@ export default function StartingScreen() {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    const userBestScore = localStorage.getItem('userBestScore');
+    dispatch(setBestScore(userBestScore));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('userBestScore', bestScore);
+  }, []);
+
   return (
     <section className="flex flex-col gap-y-5 items-center">
       <div className="flex flex-col item-center justify-center">
         <span className="animate-bounce text-4xl text-center">🧠</span>
-        <h1 className="text-5xl text-center">MemoryGame</h1>
-        <p className="text-center text-2xl text-lime-400">Personal best: 10</p>
+        <h1 className="text-5xl text-center mb-3">MemoryGame</h1>
+        <p className="text-center text-2xl ">Personal best: {bestScore}</p>
       </div>
       <div>
         <ThemeButton>{theme === 'light' ? '🌙 ' : '☀️ '}</ThemeButton>

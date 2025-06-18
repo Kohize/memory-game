@@ -14,7 +14,6 @@ export default function Game() {
           ? { backgroundImage: `url(${lightBackground})` }
           : { backgroundImage: `url(${nightBackground})` }
       }>
-      <GameHeader />
       <MainGame />
     </div>
   );
