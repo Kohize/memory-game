@@ -1,5 +1,4 @@
 import MainGame from '../../features/MainGame/MainGame';
-import GameHeader from '../../features/MainGame/ui/GameHeader/GameHeader';
 import lightBackground from '../../assets/backgrounds/light-background.png';
 import nightBackground from '../../assets/backgrounds/night-background.jpg';
 import { useSelector } from 'react-redux';
