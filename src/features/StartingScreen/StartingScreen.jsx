@@ -35,12 +35,12 @@ export default function StartingScreen() {
   return (
     <section className="flex flex-col gap-y-5 items-center">
       <div className="flex flex-col item-center justify-center">
+        <div className="flex justify-end">
+          <ThemeButton>{theme === 'light' ? '🌙 ' : '☀️ '}</ThemeButton>
+        </div>
         <span className="animate-bounce text-4xl text-center">🧠</span>
         <h1 className="text-5xl text-center mb-3">MemoryGame</h1>
         <p className="text-center text-2xl ">Personal best: {bestScore}</p>
-      </div>
-      <div>
-        <ThemeButton>{theme === 'light' ? '🌙 ' : '☀️ '}</ThemeButton>
       </div>
       <Rules />
       <Difficulty />

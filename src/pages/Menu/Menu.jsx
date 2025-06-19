@@ -14,7 +14,7 @@ export default function Menu() {
           : { backgroundImage: `url(${nightMenu})` }
       }>
       <section className="flex flex-col items-center justify-center">
-        <div className="flex p-20 flex-col gap-y-15 bg-white rounded-xl border-1 border-cyan-800">
+        <div className="flex md:p-20 flex-col gap-y-15 py-5 bg-white rounded-xl border-1 border-cyan-800">
           <StartingScreen />
         </div>
       </section>

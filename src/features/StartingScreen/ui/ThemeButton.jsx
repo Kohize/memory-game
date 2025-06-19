@@ -6,7 +6,7 @@ export default function ThemeButton({ children }) {
   return (
     <button
       onClick={() => dispatch(toggleTheme())}
-      className="p-3 font-semibold bg-indigo-600 text-zinc-50 rounded-lg hover:opacity-90 cursor-pointer">
+      className="p-3 font-semibold bg-indigo-300 text-zinc-50 rounded-lg hover:opacity-90 cursor-pointer self-end">
       {children}
     </button>
   );
