@@ -19,10 +19,8 @@ export default function useGameArray() {
 
   const shuffleArray = useCallback(
     (array) => {
-      if (!array.length) return [];
-
       const newArray = [...array];
-      for (let i = newArray.length - 1; i > 0; i--) {
+      for (let i = cardCount - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
       }

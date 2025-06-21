@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   difficulty: 'easy',
   gameArray: [],
+  cardDetails: [],
   selectedId: [],
   bestScore: 0,
 };
@@ -13,6 +14,9 @@ const gameSlice = createSlice({
   reducers: {
     setGameArray: (state, action) => {
       state.gameArray = action.payload;
+    },
+    setCardDetails: (state, action) => {
+      state.cardDetails = action.payload;
     },
     setSelectedId: (state, action) => {
       state.selectedId.push(action.payload);
@@ -37,6 +41,7 @@ export const {
   setDifficulty,
   clearSelectedId,
   setBestScore,
+  setCardDetails,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;
