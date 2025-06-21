@@ -15,6 +15,7 @@ export default function MainGame() {
   const bestScore = useSelector((state) => state.game.bestScore);
   const listOfSelectedId = useSelector((state) => state.game.selectedId);
   const [cardDetails, setCardDetails] = useState([]);
+  const [showCards, setShowCards] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [currentScore, setCurrentScore] = useState(0);
@@ -28,7 +29,7 @@ export default function MainGame() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon?limit=100&offset=${getRandomNumber()}`
+          `https://pokeapi.co/api/v2/pokemon?limit=32&offset=${getRandomNumber()}`
         );
         const data = await response.json();
         const pokemonDetail = await Promise.all(
@@ -46,15 +47,19 @@ export default function MainGame() {
     };
     fetchData();
     dispatch(clearSelectedId());
-  }, []);
+  }, [gameOver]);
 
   const handleSelect = (item) => {
     dispatch(setBestScore(currentScore));
     setCurrentScore((prev) => prev + 1);
     if (listOfSelectedId.includes(item)) {
       setGameOver(true);
+      setShowCards(false);
       setCurrentScore(0);
       dispatch(clearSelectedId());
+      setTimeout(() => {
+        setShowCards(true);
+      }, 500);
       return;
     } else if (gameOver) {
       dispatch(clearSelectedId());
@@ -79,12 +84,11 @@ export default function MainGame() {
         <h1 className="font-bold text-3xl md:text-5xl select-none text-white mb-15 lg:mb-5">
           Memory Game
         </h1>
-        {loading && <div className="text-center py-10">Loading...</div>}
-        {error && (
-          <div className="text-center py-10">Something went wrong!</div>
-        )}
+        {loading && <p className="text-center py-10">Loading...</p>}
+        {error && <p className="text-center py-10">Something went wrong!</p>}
         <ul className="grid grid-rows-2 grid-cols-4 md:grid-cols-8 gap-5 px-2 py-5 overflow-y-scroll md:overflow-hidden">
           {cardDetails.length > 0 &&
+            showCards &&
             shuffleArray(cardDetails).map((item) => (
               <li
                 onClick={() => handleSelect(item)}
