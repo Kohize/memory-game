@@ -7,6 +7,7 @@ import {
 } from '../../utils/gameSlice';
 import GameHeader from './ui/GameHeader/GameHeader';
 import useGameArray from '../../utils/useGameArray';
+import getRandomNumber from '../../utils/getRandomNumber';
 
 export default function MainGame() {
   const dispatch = useDispatch();
@@ -27,16 +28,16 @@ export default function MainGame() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon?limit=100`
+          `https://pokeapi.co/api/v2/pokemon?limit=100&offset=${getRandomNumber()}`
         );
         const data = await response.json();
-        const details = await Promise.all(
+        const pokemonDetail = await Promise.all(
           data.results.map(async (item) => {
             const response = await fetch(item.url);
             return await response.json();
           })
         );
-        setCardDetails(details);
+        setCardDetails(pokemonDetail);
       } catch (error) {
         setError(error.message);
       } finally {
