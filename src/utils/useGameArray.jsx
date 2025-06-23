@@ -29,5 +29,5 @@ export default function useGameArray() {
     [cardCount]
   );
 
-  return { shuffleArray };
+  return { shuffleArray, cardCount };
 }

@@ -20,40 +20,55 @@ export default function MainGame() {
   const [error, setError] = useState(false);
   const [currentScore, setCurrentScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const { shuffleArray } = useGameArray();
+  const [isThreshholdPassed, setIsThreshholdPassed] = useState(false);
+  const { shuffleArray, cardCount } = useGameArray();
 
   useEffect(() => {
     setLoading(true);
     setGameOver(false);
-
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon?limit=32&offset=${getRandomNumber()}`
-        );
-        const data = await response.json();
-        const pokemonDetail = await Promise.all(
-          data.results.map(async (item) => {
-            const response = await fetch(item.url);
-            return await response.json();
-          })
-        );
-        setCardDetails(pokemonDetail);
+        const savedData = localStorage.getItem('details');
+        if (savedData) {
+          const parsedData = JSON.parse(savedData);
+          setCardDetails(parsedData);
+          setLoading(false);
+        } else {
+          const response = await fetch(
+            `https://pokeapi.co/api/v2/pokemon?limit=32&offset=${getRandomNumber()}`
+          );
+          const data = await response.json();
+          const pokemonDetail = await Promise.all(
+            data.results.map(async (item) => {
+              const response = await fetch(item.url);
+              return response.json();
+            })
+          );
+          const simplifiedPokemons = pokemonDetail.map((pokemon) => ({
+            id: pokemon.id,
+            name: pokemon.name,
+            sprites: pokemon.sprites.other['official-artwork'].front_default,
+          }));
+          localStorage.setItem('details', JSON.stringify(simplifiedPokemons));
+          setCardDetails(simplifiedPokemons);
+        }
       } catch (error) {
         setError(error.message);
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
-    dispatch(clearSelectedId());
-  }, [gameOver]);
+  }, [gameOver, isThreshholdPassed]);
 
   const handleSelect = (item) => {
     dispatch(setBestScore(currentScore));
     setCurrentScore((prev) => prev + 1);
     if (listOfSelectedId.includes(item)) {
       setGameOver(true);
+      setIsThreshholdPassed(false);
+      localStorage.removeItem('details');
       setShowCards(false);
       setCurrentScore(0);
       dispatch(clearSelectedId());
@@ -64,15 +79,25 @@ export default function MainGame() {
     } else if (gameOver) {
       dispatch(clearSelectedId());
       setGameOver(false);
+      setIsThreshholdPassed(false);
     }
     dispatch(setSelectedId(item));
   };
+
+  useEffect(() => {
+    if (currentScore === cardCount) {
+      setIsThreshholdPassed(true);
+    }
+  }, [currentScore, cardCount]);
 
   useEffect(() => {
     if (currentScore > bestScore) {
       dispatch(setBestScore(currentScore));
     }
   }, [currentScore]);
+  console.log(currentScore);
+  console.log(isThreshholdPassed);
+  console.log(listOfSelectedId);
   return (
     <>
       <div className="flex flex-col gap-y-5 justify-center items-center ">
@@ -85,10 +110,10 @@ export default function MainGame() {
           Memory Game
         </h1>
         {loading && <p className="text-center py-10">Loading...</p>}
-        {error && <p className="text-center py-10">Something went wrong!</p>}
+        {error && <p className="text-center py-10">{error}</p>}
         <ul className="grid grid-rows-2 grid-cols-4 md:grid-cols-8 gap-5 px-2 py-5 overflow-y-scroll md:overflow-hidden">
-          {cardDetails.length > 0 &&
-            showCards &&
+          {showCards &&
+            cardDetails.length > 0 &&
             shuffleArray(cardDetails).map((item) => (
               <li
                 onClick={() => handleSelect(item)}
@@ -100,7 +125,7 @@ export default function MainGame() {
                 <img
                   className={`${difficulty == 'hard' && 'lg:w-28 lg:h-28 w-16 h-16'}`}
                   loading="lazy"
-                  src={item?.sprites?.other['official-artwork']?.front_default}
+                  src={item?.sprites}
                   alt="pokemon image"
                 />
               </li>
