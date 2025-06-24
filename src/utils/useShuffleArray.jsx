@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-export default function useGameArray() {
+export default function useShuffleArray() {
   const difficulty = useSelector((state) => state.game.difficulty);
 
   const cardCount = useMemo(() => {

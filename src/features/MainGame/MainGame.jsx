@@ -6,7 +6,7 @@ import {
   setBestScore,
 } from '../../utils/gameSlice';
 import GameHeader from './ui/GameHeader/GameHeader';
-import useGameArray from '../../utils/useGameArray';
+import useGameArray from '../../utils/useShuffleArray';
 import getRandomNumber from '../../utils/getRandomNumber';
 
 export default function MainGame() {
@@ -20,6 +20,7 @@ export default function MainGame() {
   const [error, setError] = useState(false);
   const [currentScore, setCurrentScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
   const [isThreshholdPassed, setIsThreshholdPassed] = useState(false);
   const { shuffleArray, cardCount } = useGameArray();
 
@@ -35,7 +36,7 @@ export default function MainGame() {
           setLoading(false);
         } else {
           const response = await fetch(
-            `https://pokeapi.co/api/v2/pokemon?limit=32&offset=${getRandomNumber()}`
+            `https://pokeapi.co/api/v2/pokemon?limit=100&offset=${getRandomNumber()}`
           );
           const data = await response.json();
           const pokemonDetail = await Promise.all(
@@ -71,6 +72,7 @@ export default function MainGame() {
       localStorage.removeItem('details');
       setShowCards(false);
       setCurrentScore(0);
+      setCorrectAnswers(0);
       dispatch(clearSelectedId());
       setTimeout(() => {
         setShowCards(true);
@@ -79,25 +81,44 @@ export default function MainGame() {
     } else if (gameOver) {
       dispatch(clearSelectedId());
       setGameOver(false);
+      setCorrectAnswers(0);
       setIsThreshholdPassed(false);
-    }
-    dispatch(setSelectedId(item));
-  };
-
-  useEffect(() => {
-    if (currentScore === cardCount) {
+      localStorage.removeItem('details');
+    } else if (correctAnswers === cardCount) {
       setIsThreshholdPassed(true);
-    }
-  }, [currentScore, cardCount]);
-
-  useEffect(() => {
-    if (currentScore > bestScore) {
+      setCorrectAnswers(0);
+      localStorage.removeItem('details');
+      setShowCards(false);
+      setTimeout(() => {
+        setShowCards(true);
+        setIsThreshholdPassed(false);
+      }, 500);
+    } else if (currentScore > bestScore) {
       dispatch(setBestScore(currentScore));
     }
-  }, [currentScore]);
-  console.log(currentScore);
-  console.log(isThreshholdPassed);
-  console.log(listOfSelectedId);
+    dispatch(setSelectedId(item));
+    setCorrectAnswers((prev) => prev + 1);
+  };
+
+  // useEffect(() => {
+  //   if (correctAnswers === cardCount) {
+  //     setIsThreshholdPassed(true);
+  //     setCorrectAnswers(0);
+  //     localStorage.removeItem('details');
+  //     setShowCards(false);
+  //     setTimeout(() => {
+  //       setShowCards(true);
+  //       setIsThreshholdPassed(false);
+  //     }, 500);
+  //   }
+  // }, [correctAnswers, cardCount]);
+
+  // useEffect(() => {
+  //   if (currentScore > bestScore) {
+  //     dispatch(setBestScore(currentScore));
+  //   }
+  // }, [currentScore]);
+
   return (
     <>
       <div className="flex flex-col gap-y-5 justify-center items-center ">
