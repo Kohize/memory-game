@@ -13,7 +13,6 @@ export default function StartingScreen() {
   const bestScore = useSelector((state) => state.game.bestScore);
 
   useEffect(() => {
-    console.log(theme);
     const savedTheme = localStorage.getItem('theme') || 'light';
     dispatch(setTheme(savedTheme));
   }, []);
