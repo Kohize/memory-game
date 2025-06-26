@@ -1,4 +1,4 @@
-import GameCards from '../GameCard.jsx/GameCards';
+import GameCards from '../GameCard/GameCards';
 
 export default function GameBoard({
   showCards,

@@ -24,7 +24,7 @@ export default function useGameLogic() {
     data: data,
     loading,
     error,
-  } = useFetchPokemons(gameOver || isThreshholdPassed);
+  } = useFetchPokemons(gameOver === true || isThreshholdPassed === true);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -33,7 +33,6 @@ export default function useGameLogic() {
   }, [data]);
 
   const handleSelect = (item) => {
-    dispatch(setBestScore(currentScore));
     setCurrentScore((prev) => prev + 1);
     setCorrectAnswers((prev) => prev + 1);
     if (listOfSelectedId.includes(item)) {
@@ -47,10 +46,8 @@ export default function useGameLogic() {
       setTimeout(() => {
         setShowCards(true);
         setGameOver(false);
-      }, 500);
+      }, 1000);
       return;
-    } else if (currentScore > bestScore) {
-      dispatch(setBestScore(currentScore));
     }
     dispatch(setSelectedId(item));
   };
@@ -64,9 +61,16 @@ export default function useGameLogic() {
       setTimeout(() => {
         setShowCards(true);
         setIsThreshholdPassed(false);
-      }, 500);
+      }, 1000);
     }
   }, [correctAnswers, cardCount]);
+
+  useEffect(() => {
+    if (currentScore > bestScore) {
+      dispatch(setBestScore(currentScore));
+    }
+  }, [currentScore, bestScore]);
+
   return {
     cardDetails,
     loading,

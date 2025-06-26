@@ -1,8 +1,8 @@
 import GameHeader from './ui/GameHeader/GameHeader';
-import GameBoard from './ui/GameBoard.jsx/GameBoard';
+import GameBoard from './ui/GameBoard/GameBoard';
 import useGameLogic from '../../utils/useGameLogic';
-
 import useShuffleArray from '../../utils/useShuffleArray';
+import Loader from './ui/Loader/Loader';
 
 export default function MainGame() {
   const {
@@ -28,7 +28,7 @@ export default function MainGame() {
         <h1 className="font-bold text-3xl md:text-5xl select-none text-white mb-15 lg:mb-5">
           Memory Game
         </h1>
-        {loading && <p className="text-center py-10">Loading...</p>}
+        {loading && <Loader />}
         {error && <p className="text-center py-10">{error}</p>}
         <GameBoard
           showCards={showCards}

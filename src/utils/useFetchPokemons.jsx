@@ -18,6 +18,7 @@ export default function useFetchPokemons(updateData) {
           const response = await fetch(
             `https://pokeapi.co/api/v2/pokemon?limit=100&offset=${getRandomNumber()}`
           );
+          console.log('fetched');
           const data = await response.json();
           const pokemonDetail = await Promise.all(
             data.results.map(async (item) => {
