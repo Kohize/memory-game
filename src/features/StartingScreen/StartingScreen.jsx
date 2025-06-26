@@ -39,8 +39,10 @@ export default function StartingScreen() {
           <ThemeButton>{theme === 'light' ? '🌙 ' : '☀️ '}</ThemeButton>
         </div>
         <span className="animate-bounce text-4xl text-center">🧠</span>
-        <h1 className="text-5xl text-center mb-3">MemoryGame</h1>
-        <p className="text-center text-2xl ">Personal best: {bestScore}</p>
+        <h1 className="text-2xl md:text-5xl text-center mb-3">MemoryGame</h1>
+        <p className="text-center text-xl md:text-2xl ">
+          Personal best: {bestScore}
+        </p>
       </div>
       <Rules />
       <Difficulty />
