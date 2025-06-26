@@ -20,7 +20,7 @@ export default function Loader() {
           fill="currentFill"
         />
       </svg>
-      <span className="text-4xl text-white">Setting up a new round</span>
+      <span className="md:text-4xl text-white">Setting up a new round</span>
     </div>
   );
 }
